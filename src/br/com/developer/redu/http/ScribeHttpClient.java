@@ -30,7 +30,7 @@ import java.net.URL;
 public class ScribeHttpClient extends HttpClient {
     private OAuthService service;
     private Token accesToken;
-
+    private String pin;
 
 
 
@@ -41,24 +41,17 @@ public class ScribeHttpClient extends HttpClient {
     }
     public ScribeHttpClient(String consumerKey, String consumerSecret, String pin) throws MalformedURLException, IOException{
         super(consumerKey, consumerSecret);
-        this.initOauth();
+        this.pin = pin;
+        createToken();
+    }
+    
+    public void createToken() throws MalformedURLException, IOException {
+    	this.initOauth();
         String serverUrl = "http://openredu.ufpe.br/oauth/token?";
         String urlParameters = "client_id=" + consumerKey + "&client_secret="
         		+ consumerSecret + "&code=" + pin + "&grant_type=authorization_code";
         serverUrl = serverUrl + urlParameters;
         HttpURLConnection con = (HttpURLConnection) new URL(serverUrl).openConnection();
-//        con.setRequestMethod("POST");
-//        con.setRequestProperty("Content-Type",
-//           "application/x-www-form-urlencoded");
-//        con.setRequestProperty("Content-Language", "pt-BR");
-//        con.setDoOutput(true);
-//        con.setUseCaches (false);
-//        con.setDoInput(true);
-//        try (DataOutputStream wr = new DataOutputStream (
-//                con.getOutputStream ())) {
-//            wr.writeBytes (urlParameters);
-//            wr.flush ();
-//        }
         String redirect = con.getHeaderField("Location");
         System.out.println(redirect);
         if (redirect != null){
@@ -101,7 +94,16 @@ consumerSecret);
     @Override
     public void initClient(String pin) {
         Verifier v = new Verifier(pin);
-        this.accesToken = this.service.getAccessToken(null, v);
+        this.pin = pin;
+        try {
+			createToken();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @Override

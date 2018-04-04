@@ -31,8 +31,9 @@ import java.util.Map;
  * @param <G> Tipo de Status
  * @param <H> Tipo de ChatMessage
  * @param <I> Tipo de Chat
+ * @param <X> Tipo de Progresso
  */
-public abstract class ReduClient<A,B,C,D,E,F,G, H,I> implements Redu<A,B,C,D,E,F,G,H,I> {
+public abstract class ReduClient<A,B,C,D,E,F,G, H,I,X,Z> implements Redu<A,B,C,D,E,F,G,H,I,X,Z> {
 
     private HttpClient httpClient;
     private final String BASE_URL="https://openredu.ufpe.br/api/";
@@ -46,6 +47,8 @@ public abstract class ReduClient<A,B,C,D,E,F,G, H,I> implements Redu<A,B,C,D,E,F
     protected Type enrollmentList;
     protected Type chatMessageList;
     protected Type chatList;
+    protected Type progressList;
+    protected Type lectureList;
     
     protected Class<A> courseClass;
     protected Class<B> enrollmentClass;
@@ -56,6 +59,8 @@ public abstract class ReduClient<A,B,C,D,E,F,G, H,I> implements Redu<A,B,C,D,E,F
     protected Class<G> statusClass;
     protected Class<H> chatMessageClass;
     protected Class<I> chatClass;
+    protected Class<X> progressClass;
+    protected Class<Z> lectureClass;
 
 
     public ReduClient(String consumerKey, String consumerSecret){
@@ -372,5 +377,34 @@ public abstract class ReduClient<A,B,C,D,E,F,G, H,I> implements Redu<A,B,C,D,E,F
     public List<I> getChatsByUser(String userId){
     	return this.getUrl(BASE_URL+"users/"+userId+"/chats",this.chatList);
     }
-    
+
+    @Override
+    public X getProgress(String progressid) {
+        return this.getUrl(BASE_URL+"progress/"+progressid,this.progressClass);
+    }
+
+    @Override
+    public List<X> getProgressByLecture(String lectureid) {
+        return this.getUrl(BASE_URL+"lectures/"+lectureid+"/progress",this.progressList);
+    }
+
+    @Override
+    public List<X> getProgressBySubject(String subjectid) {
+        return this.getUrl(BASE_URL+"subjects/"+subjectid+"/progress",this.progressList);
+    }
+
+    @Override
+    public List<X> getProgressByUser(String userid) {
+        return this.getUrl(BASE_URL+"users/"+userid+"/progress",this.progressList);
+    }
+
+    @Override
+    public Z getLecture(String lectureid) {
+        return this.getUrl(BASE_URL+"lectures/"+lectureid,this.lectureClass);
+    }
+
+    @Override
+    public List<Z> getLectureBySubject(String subjectid) {
+        return this.getUrl(BASE_URL+"subjects/"+subjectid+"/lectures",this.lectureList);
+    }
 }

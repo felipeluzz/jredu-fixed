@@ -1,5 +1,7 @@
 package br.com.developer.redu;
 
+import br.com.developer.redu.models.Lecture;
+import br.com.developer.redu.models.Progress;
 import com.google.gson.internal.StringMap;
 import com.google.gson.reflect.TypeToken;
 
@@ -16,7 +18,7 @@ import java.net.MalformedURLException;
  * representados pela classe generica StringMap que é basicamente uma accessor para jsons
  */
 public class MapClientRedu extends ReduClient<StringMap, StringMap, StringMap,StringMap, StringMap,
-        StringMap, StringMap, StringMap, StringMap> {
+        StringMap, StringMap, StringMap, StringMap, Progress, Lecture> {
     public MapClientRedu(String consumerKey, String consumerSecret, String pin) throws MalformedURLException, IOException {
         super(consumerKey, consumerSecret, pin);
     }
@@ -42,7 +44,10 @@ public class MapClientRedu extends ReduClient<StringMap, StringMap, StringMap,St
         super.chatMessageList = stringMapListType;
         super.chatClass = StringMap.class;
         super.chatList = stringMapListType;
-        
+        super.progressClass = Progress.class;
+        super.progressList = stringMapListType;
+        super.lectureClass = Lecture.class;
+        super.lectureList = stringMapListType;
     }
 
 }

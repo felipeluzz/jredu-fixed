@@ -7,8 +7,8 @@ package br.com.developer.redu.api;
  * Time: 10:14 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface Redu<A,B,C,D,E,F,G,H,I> extends CourseMethods<A>, EnrollnmentMethods<B>, EnvironmentMethods<C>,
+public interface Redu<A,B,C,D,E,F,G,H,I,X,Z> extends CourseMethods<A>, EnrollnmentMethods<B>, EnvironmentMethods<C>,
         SpaceMethods<D>, SubjectMethods<E>, UserMethods<F>, WallMethods<G>, 
-        ChatMessageMethods<H>, ChatMethods<I>{
+        ChatMessageMethods<H>, ChatMethods<I>, ProgressMethods<X>, LectureMethods<Z>{
 
 }
